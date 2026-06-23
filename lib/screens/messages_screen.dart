@@ -1,69 +1,41 @@
-import 'package:flutter/material.dart';
-import 'chat_screen.dart';
+﻿import 'package:flutter/material.dart';
+import '../models/message.dart';
+import '../widgets/message_tile.dart';
 
 class MessagesScreen extends StatelessWidget {
   const MessagesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, String>> chats = [
-      {
-        'name': 'Anu',
-        'message': 'Hey! How are you?',
-        'time': '2m',
-        'image': 'https://i.pravatar.cc/150?img=2',
-      },
-      {
-        'name': 'Maya',
-        'message': 'Let’s meet tomorrow 😊',
-        'time': '10m',
-        'image': 'https://i.pravatar.cc/150?img=3',
-      },
-      {
-        'name': 'Akhil',
-        'message': 'Sent a reel',
-        'time': '1h',
-        'image': 'https://i.pravatar.cc/150?img=4',
-      },
-      {
-        'name': 'Diya',
-        'message': 'Typing...',
-        'time': '3h',
-        'image': 'https://i.pravatar.cc/150?img=5',
-      },
-      {
-        'name': 'Rahul',
-        'message': 'See you soon!',
-        'time': '5h',
-        'image': 'https://i.pravatar.cc/150?img=6',
-      },
-    ];
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         title: const Text(
-          'anagha_123',
+          'Direct',
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
+            fontSize: 22,
           ),
         ),
         iconTheme: const IconThemeData(color: Colors.black),
         actions: const [
           Padding(
+            padding: EdgeInsets.only(right: 12),
+            child: Icon(Icons.video_call_outlined, color: Colors.black),
+          ),
+          Padding(
             padding: EdgeInsets.only(right: 16),
             child: Icon(Icons.edit_outlined, color: Colors.black),
-          )
+          ),
         ],
       ),
       body: Column(
         children: [
-          // Search bar
           Padding(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: TextField(
               decoration: InputDecoration(
                 hintText: 'Search',
@@ -72,55 +44,54 @@ class MessagesScreen extends StatelessWidget {
                 fillColor: Colors.grey.shade200,
                 contentPadding: const EdgeInsets.symmetric(vertical: 0),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(14),
                   borderSide: BorderSide.none,
                 ),
               ),
             ),
           ),
-
-          // Messages header
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Messages',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+          SizedBox(
+            height: 100,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              children: sampleConversations.map((conversation) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 12),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: 68,
+                        height: 68,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Colors.pinkAccent,
+                            width: 2,
+                          ),
+                        ),
+                        child: CircleAvatar(
+                          radius: 32,
+                          backgroundImage: NetworkImage(conversation.avatarUrl),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        conversation.name.split(' ').first,
+                        style: const TextStyle(fontSize: 12),
+                      ),
+                    ],
+                  ),
+                );
+              }).toList(),
             ),
           ),
-
-          // Chat list
+          const SizedBox(height: 10),
           Expanded(
             child: ListView.builder(
-              itemCount: chats.length,
+              itemCount: sampleConversations.length,
               itemBuilder: (context, index) {
-                final chat = chats[index];
-                return ListTile(
-                  leading: CircleAvatar(
-                    radius: 28,
-                    backgroundImage: NetworkImage(chat['image']!),
-                  ),
-                  title: Text(
-                    chat['name']!,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text('${chat['message']} · ${chat['time']}'),
-                  trailing: const Icon(Icons.camera_alt_outlined),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            ChatScreen(contactName: chat['name']!),
-                      ),
-                    );
-                  },
-                );
+                return MessageTile(conversation: sampleConversations[index]);
               },
             ),
           ),

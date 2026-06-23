@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'messages_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -16,7 +16,6 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.white,
-
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -46,30 +45,52 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Stories section
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              child: Text(
+                'Stories',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
             SizedBox(
               height: 110,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
                 itemCount: stories.length,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 10,
-                    ),
+                    padding: const EdgeInsets.only(right: 12),
                     child: Column(
                       children: [
-                        CircleAvatar(
-                          radius: 32,
-                          backgroundImage:
-                              NetworkImage(stories[index]['image']!),
+                        Container(
+                          width: 70,
+                          height: 70,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: const LinearGradient(
+                              colors: [Colors.orange, Colors.pink],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(3),
+                            child: CircleAvatar(
+                              radius: 32,
+                              backgroundImage:
+                                  NetworkImage(stories[index]['image']!),
+                            ),
+                          ),
                         ),
-                        const SizedBox(height: 6),
+                        const SizedBox(height: 8),
                         Text(
                           stories[index]['name']!,
                           style: const TextStyle(fontSize: 12),
@@ -80,30 +101,33 @@ class HomeScreen extends StatelessWidget {
                 },
               ),
             ),
-
-            const Divider(),
-
-            // Post 1
+            const SizedBox(height: 8),
+            const Divider(height: 1),
+            const SizedBox(height: 10),
             _buildPost(
               username: 'Anu',
               userImage: 'https://i.pravatar.cc/150?img=2',
               postImage:
-                  'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d',
+                  'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?auto=format&fit=crop&w=800&q=80',
               caption: 'Enjoying the day 🌸',
             ),
-
-            // Post 2
             _buildPost(
               username: 'Maya',
               userImage: 'https://i.pravatar.cc/150?img=3',
               postImage:
-                  'https://images.unsplash.com/photo-1494790108377-be9c29b29330',
+                  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=800&q=80',
               caption: 'New vibes ✨',
+            ),
+            _buildPost(
+              username: 'Akhil',
+              userImage: 'https://i.pravatar.cc/150?img=4',
+              postImage:
+                  'https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=800&q=80',
+              caption: 'Sunset evening with friends 🌅',
             ),
           ],
         ),
       ),
-
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.black54,
@@ -128,49 +152,58 @@ class HomeScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ListTile(
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage(userImage),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14),
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 20,
+                backgroundImage: NetworkImage(userImage),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  username,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+              const Icon(Icons.more_vert),
+            ],
           ),
-          title: Text(
-            username,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          trailing: const Icon(Icons.more_vert),
         ),
-
+        const SizedBox(height: 10),
         Image.network(
           postImage,
           width: double.infinity,
-          height: 300,
+          height: 320,
           fit: BoxFit.cover,
         ),
-
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
           child: Row(
             children: const [
               Icon(Icons.favorite_border, size: 28),
-              SizedBox(width: 12),
+              SizedBox(width: 16),
               Icon(Icons.mode_comment_outlined, size: 28),
-              SizedBox(width: 12),
+              SizedBox(width: 16),
               Icon(Icons.send, size: 28),
               Spacer(),
               Icon(Icons.bookmark_border, size: 28),
             ],
           ),
         ),
-
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 14),
           child: Text(
             'Liked by user123 and others',
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           child: RichText(
             text: TextSpan(
               style: const TextStyle(color: Colors.black),
@@ -184,8 +217,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ),
-
-        const SizedBox(height: 12),
+        const SizedBox(height: 18),
       ],
     );
   }

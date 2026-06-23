@@ -1,28 +1,28 @@
-// models/message.dart
+﻿// models/message.dart
 // This file defines the data models used throughout the app.
 // A "model" is just a Dart class that holds structured data.
 
 // ─── Conversation Model ───────────────────────────────────────────────────────
 // Represents a single conversation entry shown in the Messages list screen.
 class Conversation {
-  final String name;        // The contact's name
-  final String lastMessage; // Preview of the most recent message
-  final String avatarLetter; // Letter used to display the avatar circle
+  final String name;
+  final String lastMessage;
+  final String avatarUrl;
+  final String time;
 
-  // Constructor: called when creating a new Conversation object.
-  // The "required" keyword means these fields must always be provided.
   const Conversation({
     required this.name,
     required this.lastMessage,
-    required this.avatarLetter,
+    required this.avatarUrl,
+    required this.time,
   });
 }
 
-// ─── ChatMessage Model ────────────────────────────────────────────────────────
+// ─── ChatMessage Model ─────────────────────────────────────────────────────────
 // Represents a single chat bubble inside the Chat Screen.
 class ChatMessage {
-  final String text;      // The text content of the message
-  final bool isSentByMe;  // true = shown on the right (me), false = left (them)
+  final String text;
+  final bool isSentByMe;
 
   const ChatMessage({
     required this.text,
@@ -31,32 +31,48 @@ class ChatMessage {
 }
 
 // ─── Sample Data ──────────────────────────────────────────────────────────────
-// Hard-coded fake conversations shown in the Messages Screen.
-// In a real app this data would come from a server or database.
 final List<Conversation> sampleConversations = [
-  Conversation(name: 'Alice Johnson',   lastMessage: 'See you tomorrow!',          avatarLetter: 'A'),
-  Conversation(name: 'Bob Smith',       lastMessage: 'Can you send the file?',     avatarLetter: 'B'),
-  Conversation(name: 'Carol White',     lastMessage: 'That sounds great 👍',        avatarLetter: 'C'),
-  Conversation(name: 'David Brown',     lastMessage: 'On my way!',                 avatarLetter: 'D'),
-  Conversation(name: 'Eva Martinez',    lastMessage: 'Happy birthday!! 🎉',         avatarLetter: 'E'),
-  Conversation(name: 'Frank Lee',       lastMessage: 'Let me check and get back.', avatarLetter: 'F'),
-  Conversation(name: 'Grace Kim',       lastMessage: 'The meeting is at 3pm.',     avatarLetter: 'G'),
-  Conversation(name: 'Henry Wilson',    lastMessage: 'Did you see the news?',      avatarLetter: 'H'),
-  Conversation(name: 'Isla Thompson',   lastMessage: 'Just landed. Safe!',         avatarLetter: 'I'),
-  Conversation(name: 'Jack Davis',      lastMessage: 'Coffee tomorrow? ☕',         avatarLetter: 'J'),
+  const Conversation(
+    name: 'Anu',
+    lastMessage: 'Hey! How are you?',
+    avatarUrl: 'https://i.pravatar.cc/150?img=2',
+    time: '2m',
+  ),
+  const Conversation(
+    name: 'Maya',
+    lastMessage: 'Let’s meet tomorrow 😊',
+    avatarUrl: 'https://i.pravatar.cc/150?img=3',
+    time: '10m',
+  ),
+  const Conversation(
+    name: 'Akhil',
+    lastMessage: 'Sent a reel',
+    avatarUrl: 'https://i.pravatar.cc/150?img=4',
+    time: '1h',
+  ),
+  const Conversation(
+    name: 'Diya',
+    lastMessage: 'Typing...',
+    avatarUrl: 'https://i.pravatar.cc/150?img=5',
+    time: '3h',
+  ),
+  const Conversation(
+    name: 'Rahul',
+    lastMessage: 'See you soon!',
+    avatarUrl: 'https://i.pravatar.cc/150?img=6',
+    time: '5h',
+  ),
 ];
 
-// Hard-coded fake chat messages shown inside the Chat Screen.
-// These are reused for every conversation (it's a demo app).
 final List<ChatMessage> sampleChatMessages = [
-  ChatMessage(text: 'Hey! How are you?',               isSentByMe: false),
-  ChatMessage(text: 'I\'m good, thanks! You?',         isSentByMe: true),
-  ChatMessage(text: 'Doing well! What\'s up?',         isSentByMe: false),
-  ChatMessage(text: 'Just working on a Flutter app 📱', isSentByMe: true),
-  ChatMessage(text: 'Oh nice! How is it going?',       isSentByMe: false),
-  ChatMessage(text: 'Pretty well. Learning a lot!',    isSentByMe: true),
-  ChatMessage(text: 'Flutter is awesome 🚀',           isSentByMe: false),
-  ChatMessage(text: 'Agreed! Love the hot reload.',    isSentByMe: true),
-  ChatMessage(text: 'Let me know if you need help.',   isSentByMe: false),
-  ChatMessage(text: 'Will do. Thanks! 😊',             isSentByMe: true),
+  const ChatMessage(text: 'Hey! How are you?', isSentByMe: false),
+  const ChatMessage(text: 'I\'m good, thanks! You?', isSentByMe: true),
+  const ChatMessage(text: 'Doing well! What\'s up?', isSentByMe: false),
+  const ChatMessage(text: 'Just working on a Flutter app 📱', isSentByMe: true),
+  const ChatMessage(text: 'Oh nice! How is it going?', isSentByMe: false),
+  const ChatMessage(text: 'Pretty well. Learning a lot!', isSentByMe: true),
+  const ChatMessage(text: 'Flutter is awesome 🚀', isSentByMe: false),
+  const ChatMessage(text: 'Agreed! Love the hot reload.', isSentByMe: true),
+  const ChatMessage(text: 'Let me know if you need help.', isSentByMe: false),
+  const ChatMessage(text: 'Will do. Thanks! 😊', isSentByMe: true),
 ];

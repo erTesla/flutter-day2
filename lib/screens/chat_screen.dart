@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import '../models/message.dart';
 
 class ChatScreen extends StatelessWidget {
   final String contactName;
@@ -7,16 +8,6 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> messages = [
-      {'text': 'Hey 👋', 'isMe': false},
-      {'text': 'Hi! How are you?', 'isMe': true},
-      {'text': 'I am good 😊', 'isMe': false},
-      {'text': 'What about you?', 'isMe': false},
-      {'text': 'Doing great!', 'isMe': true},
-      {'text': 'Shall we meet tomorrow?', 'isMe': false},
-      {'text': 'Sure 👍', 'isMe': true},
-    ];
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -30,12 +21,24 @@ class ChatScreen extends StatelessWidget {
               backgroundImage: NetworkImage('https://i.pravatar.cc/150?img=2'),
             ),
             const SizedBox(width: 10),
-            Text(
-              contactName,
-              style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  contactName,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Text(
+                  'Active 1h ago',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -52,31 +55,36 @@ class ChatScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          // Chat messages
           Expanded(
             child: ListView.builder(
-              padding: const EdgeInsets.all(12),
-              itemCount: messages.length,
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              itemCount: sampleChatMessages.length,
               itemBuilder: (context, index) {
-                final msg = messages[index];
-                final bool isMe = msg['isMe'];
-
+                final msg = sampleChatMessages[index];
                 return Align(
-                  alignment:
-                      isMe ? Alignment.centerRight : Alignment.centerLeft,
+                  alignment: msg.isSentByMe
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 6),
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 10,
+                      horizontal: 16,
+                      vertical: 12,
                     ),
-                    constraints: const BoxConstraints(maxWidth: 250),
+                    constraints: const BoxConstraints(maxWidth: 260),
                     decoration: BoxDecoration(
-                      color: isMe ? Colors.blue.shade100 : Colors.grey.shade200,
-                      borderRadius: BorderRadius.circular(18),
+                      color: msg.isSentByMe
+                          ? Colors.blue.shade100
+                          : Colors.grey.shade200,
+                      borderRadius: BorderRadius.only(
+                        topLeft: const Radius.circular(18),
+                        topRight: const Radius.circular(18),
+                        bottomLeft: Radius.circular(msg.isSentByMe ? 18 : 4),
+                        bottomRight: Radius.circular(msg.isSentByMe ? 4 : 18),
+                      ),
                     ),
                     child: Text(
-                      msg['text'],
+                      msg.text,
                       style: const TextStyle(fontSize: 16),
                     ),
                   ),
@@ -84,10 +92,8 @@ class ChatScreen extends StatelessWidget {
               },
             ),
           ),
-
-          // Bottom input bar
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             decoration: BoxDecoration(
               color: Colors.white,
               border: Border(
@@ -96,29 +102,28 @@ class ChatScreen extends StatelessWidget {
             ),
             child: Row(
               children: [
-                const CircleAvatar(
-                  radius: 16,
-                  child: Icon(Icons.camera_alt, size: 18),
-                ),
-                const SizedBox(width: 10),
+                const Icon(Icons.add_circle_outline, color: Colors.black54),
+                const SizedBox(width: 12),
                 Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Message...',
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 10,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 14),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: const TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Message...',
+                        border: InputBorder.none,
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(width: 10),
-                const Icon(Icons.mic_none, color: Colors.black),
-                const SizedBox(width: 10),
-                const Icon(Icons.image_outlined, color: Colors.black),
+                const SizedBox(width: 12),
+                const Icon(Icons.photo, color: Colors.black54),
+                const SizedBox(width: 12),
+                const Icon(Icons.sentiment_satisfied_outlined,
+                    color: Colors.black54),
               ],
             ),
           ),
