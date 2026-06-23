@@ -24,11 +24,11 @@ class MessageTile extends StatelessWidget {
       // ── Leading: the round avatar circle on the left ──────────────────────
       leading: CircleAvatar(
         // Background color – students can change this later
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: const Color.fromARGB(255, 180, 14, 144),
         // Show the first letter of the contact's name
         child: Text(
           conversation.avatarLetter,
-          style: const TextStyle(color: Colors.white),
+          style: const TextStyle(color: Color.fromARGB(255, 133, 8, 8)),
         ),
       ),
 

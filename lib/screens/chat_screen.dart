@@ -22,6 +22,7 @@ class ChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       // ── AppBar ─────────────────────────────────────────────────────────────
+      
       appBar: AppBar(
         // Display the contact's name passed in from the previous screen
         title: Text(contactName),
@@ -127,7 +128,7 @@ class ChatScreen extends StatelessWidget {
           // onPressed is empty (no functionality) – a student assignment!
           IconButton(
             icon: const Icon(Icons.send),
-            color: Colors.blue,
+            color: const Color.fromARGB(255, 76, 18, 212),
             onPressed: () {
               // TODO: Students – add send functionality here!
               // Hint: You'll need to convert this to a StatefulWidget
