@@ -16,48 +16,111 @@ class MessageTile extends StatelessWidget {
   // Constructor – requires a conversation object
   const MessageTile({super.key, required this.conversation});
 
+  Color _avatarColor() {
+    final colors = [
+      Colors.indigo,
+      Colors.deepPurple,
+      Colors.teal,
+      Colors.cyan,
+      Colors.pink,
+      Colors.orange,
+      Colors.blue,
+      Colors.green,
+    ];
+    return colors[conversation.name.hashCode.abs() % colors.length].shade700;
+  }
+
+  String _avatarAnimal() {
+    const animals = ['🐶', '🐱', '🦊', '🐼', '🐨', '🦁', '🐸', '🐵', '🐰', '🐯'];
+    return animals[conversation.name.hashCode.abs() % animals.length];
+  }
+
   @override
   Widget build(BuildContext context) {
-    // ListTile is a built-in Flutter widget perfect for list rows.
-    // It has built-in slots for a leading icon, title, subtitle, and trailing widget.
-    return ListTile(
-      // ── Leading: the round avatar circle on the left ──────────────────────
-      leading: CircleAvatar(
-        // Background color – students can change this later
-        backgroundColor: Colors.blueGrey,
-        // Show the first letter of the contact's name
-        child: Text(
-          conversation.avatarLetter,
-          style: const TextStyle(color: Colors.white),
-        ),
-      ),
-
-      // ── Title: the contact's name ─────────────────────────────────────────
-      title: Text(conversation.name),
-
-      // ── Subtitle: preview of the last message ─────────────────────────────
-      subtitle: Text(
-        conversation.lastMessage,
-        // Prevent long messages from wrapping to a second line
-        overflow: TextOverflow.ellipsis,
-        maxLines: 1,
-      ),
-
-      // ── onTap: what happens when the user taps this tile ──────────────────
-      onTap: () {
-        // NAVIGATION: Push the ChatScreen onto the navigation stack.
-        // Navigator.push() adds a new screen on top of the current one.
-        // The user can go back by pressing the back button (added automatically).
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ChatScreen(
-              // Pass the contact name so the Chat Screen can display it in the AppBar
-              contactName: conversation.name,
+    final avatarColor = _avatarColor();
+    final animalEmoji = _avatarAnimal();
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+      elevation: 2,
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        leading: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            CircleAvatar(
+              radius: 26,
+              backgroundColor: avatarColor,
+              child: Text(
+                animalEmoji,
+                style: const TextStyle(fontSize: 24),
+              ),
             ),
-          ),
-        );
-      },
+            Positioned(
+              bottom: -2,
+              right: -2,
+              child: Container(
+                width: 22,
+                height: 22,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey.shade300, width: 1.4),
+                ),
+                child: const Icon(
+                  Icons.smart_toy,
+                  size: 14,
+                  color: Colors.deepPurple,
+                ),
+              ),
+            ),
+          ],
+        ),
+        title: Text(
+          conversation.name,
+          style: const TextStyle(fontWeight: FontWeight.w700),
+        ),
+        subtitle: Text(
+          conversation.lastMessage,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+          style: TextStyle(color: Colors.grey.shade600),
+        ),
+        trailing: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text(
+              conversation.time,
+              style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
+            ),
+            if (conversation.unreadCount > 0) ...[
+              const SizedBox(height: 8),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.redAccent,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  conversation.unreadCount > 99 ? '99+' : conversation.unreadCount.toString(),
+                  style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ],
+        ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChatScreen(
+                contactName: conversation.name,
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }
