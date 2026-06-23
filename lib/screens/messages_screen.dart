@@ -18,18 +18,18 @@ class MessagesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // ── AppBar ─────────────────────────────────────────────────────────────
+      backgroundColor:Colors.black,
+      // ── AppBar ────
       appBar: AppBar(
+        backgroundColor:Colors.white,
         title: const Text('Messages'),
       ),
-
       // ── Body ───────────────────────────────────────────────────────────────
       // ListView.builder is the efficient way to display a scrollable list.
       // It only builds the widgets that are currently visible on screen.
       body: ListView.builder(
         // itemCount tells Flutter how many items are in the list.
-        itemCount: sampleConversations.length, // 10 conversations
-
+        itemCount: sampleConversations.length, // 10 conversation
         // itemBuilder is called once per item to build each row widget.
         // "index" is the position in the list (0, 1, 2 … 9).
         itemBuilder: (context, index) {

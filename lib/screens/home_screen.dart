@@ -18,9 +18,11 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Scaffold provides the basic visual structure: AppBar + body area.
     return Scaffold(
-      // ── AppBar ─────────────────────────────────────────────────────────────
+      // ── AppBar ─────
+      backgroundColor:Colors.black,
       appBar: AppBar(
-        title: const Text('Flutter Chat App'),
+        backgroundColor: Colors.white,
+        title: const Text('Instagram'),
       ),
 
       // ── Body ───────────────────────────────────────────────────────────────
@@ -33,19 +35,20 @@ class HomeScreen extends StatelessWidget {
           children: [
             // ── Welcome icon ───────────────────────────────────────────────
             const Icon(
-              Icons.chat_bubble_outline,
+              Icons.camera_indoor,
               size: 80,
-              color: Colors.blueGrey,
+              color: Colors.purple,
             ),
 
             const SizedBox(height: 24), // Empty space between widgets
 
             // ── Welcome text ───────────────────────────────────────────────
             const Text(
-              'Welcome to Flutter Chat!',
+              'Instagram',
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
+                color:Colors.purple
               ),
             ),
 
@@ -53,7 +56,7 @@ class HomeScreen extends StatelessWidget {
 
             const Text(
               'Tap the button below to see your messages.',
-              style: TextStyle(fontSize: 14, color: Colors.grey),
+              style: TextStyle(fontSize: 14, color: Colors.white),
               textAlign: TextAlign.center,
             ),
 
