@@ -21,10 +21,11 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor:Colors.black,
       // ── AppBar ─────────────────────────────────────────────────────────────
       appBar: AppBar(
-        // Display the contact's name passed in from the previous screen
-        title: Text(contactName),
+        backgroundColor:Colors.black,
+        title: Text(contactName,style:TextStyle(color:Colors.white)),
       ),
 
       // ── Body ───────────────────────────────────────────────────────────────
@@ -64,7 +65,7 @@ class ChatScreen extends StatelessWidget {
         message.isSentByMe ? CrossAxisAlignment.end : CrossAxisAlignment.start;
 
     // Blue for "me", grey for the other person
-    final bubbleColor = message.isSentByMe ? Colors.blue[100] : Colors.grey[200];
+    final bubbleColor = message.isSentByMe ? Colors.purple[100] : Colors.pink[200];
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
@@ -98,8 +99,8 @@ class ChatScreen extends StatelessWidget {
     return Container(
       // A light border on top to visually separate the input from messages
       decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border(top: BorderSide(color: Colors.grey.shade300)),
+        color: Colors.black,
+        border: Border(top: BorderSide(color: Colors.white)),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: Row(
@@ -126,8 +127,8 @@ class ChatScreen extends StatelessWidget {
           // IconButton wraps an icon and makes it tappable.
           // onPressed is empty (no functionality) – a student assignment!
           IconButton(
-            icon: const Icon(Icons.send),
-            color: Colors.blue,
+            icon: const Icon(Icons.camera),
+            color: Colors.purple,
             onPressed: () {
               // TODO: Students – add send functionality here!
               // Hint: You'll need to convert this to a StatefulWidget
