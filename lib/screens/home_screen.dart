@@ -18,9 +18,13 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Scaffold provides the basic visual structure: AppBar + body area.
     return Scaffold(
+      backgroundColor: Colors.white,
       // ── AppBar ─────────────────────────────────────────────────────────────
       appBar: AppBar(
-        title: const Text('Flutter Chat App'),
+        title: const Text(
+          'Flutter Chat App',
+          style: TextStyle(fontWeight: FontWeight.bold),
+          ),
       ),
 
       // ── Body ───────────────────────────────────────────────────────────────
@@ -33,9 +37,9 @@ class HomeScreen extends StatelessWidget {
           children: [
             // ── Welcome icon ───────────────────────────────────────────────
             const Icon(
-              Icons.chat_bubble_outline,
+              Icons.chat_bubble_outline_rounded,
               size: 80,
-              color: Colors.blueGrey,
+              color: Colors.cyanAccent,
             ),
 
             const SizedBox(height: 24), // Empty space between widgets
@@ -44,8 +48,9 @@ class HomeScreen extends StatelessWidget {
             const Text(
               'Welcome to Flutter Chat!',
               style: TextStyle(
-                fontSize: 22,
+                fontSize: 40,
                 fontWeight: FontWeight.bold,
+                color: Colors.cyanAccent,
               ),
             ),
 
@@ -53,7 +58,7 @@ class HomeScreen extends StatelessWidget {
 
             const Text(
               'Tap the button below to see your messages.',
-              style: TextStyle(fontSize: 14, color: Colors.grey),
+              style: TextStyle(fontSize: 14, color: Color.fromARGB(255, 0, 0, 0)),
               textAlign: TextAlign.center,
             ),
 
@@ -73,6 +78,10 @@ class HomeScreen extends StatelessWidget {
                   ),
                 );
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                foregroundColor: Colors.white,
+              ),
               child: const Text('Open Messages'),
             ),
           ],

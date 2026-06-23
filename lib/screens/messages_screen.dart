@@ -20,7 +20,13 @@ class MessagesScreen extends StatelessWidget {
     return Scaffold(
       // ── AppBar ─────────────────────────────────────────────────────────────
       appBar: AppBar(
-        title: const Text('Messages'),
+        title: const Text(
+          'Messages',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+          ),
+        foregroundColor: const Color.fromARGB(255, 0, 0, 0),
       ),
 
       // ── Body ───────────────────────────────────────────────────────────────
