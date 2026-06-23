@@ -21,27 +21,96 @@ class MessageTile extends StatelessWidget {
     // ListTile is a built-in Flutter widget perfect for list rows.
     // It has built-in slots for a leading icon, title, subtitle, and trailing widget.
     return ListTile(
+  contentPadding: const EdgeInsets.symmetric(
+    horizontal: 16,
+    vertical: 6,
+  ),
+  minVerticalPadding: 12,
       // ── Leading: the round avatar circle on the left ──────────────────────
-      leading: CircleAvatar(
-        // Background color – students can change this later
-        backgroundColor: Colors.blueGrey,
-        // Show the first letter of the contact's name
-        child: Text(
-          conversation.avatarLetter,
-          style: const TextStyle(color: Colors.white),
+      leading: Stack(
+  children: [
+    CircleAvatar(
+      radius: 28,
+      backgroundColor: Colors.grey.shade300,
+      child: Text(
+        conversation.avatarLetter,
+        style: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
         ),
       ),
+    ),
+
+    if (conversation.isOnline)
+      Positioned(
+        right: 0,
+        bottom: 0,
+        child: Container(
+          width: 16,
+          height: 16,
+          decoration: BoxDecoration(
+            color: Colors.green,
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: Colors.white,
+              width: 2,
+            ),
+          ),
+        ),
+      ),
+  ],
+),
 
       // ── Title: the contact's name ─────────────────────────────────────────
-      title: Text(conversation.name),
+      title: Row(
+  children: [
+    Expanded(
+      child: Text(
+        conversation.name,
+        style: const TextStyle(
+          fontWeight: FontWeight.w600,
+          fontSize: 15,
+        ),
+      ),
+    ),
+
+    Text(
+      conversation.time,
+      style: const TextStyle(
+        color: Colors.grey,
+        fontSize: 12,
+      ),
+    ),
+  ],
+),
 
       // ── Subtitle: preview of the last message ─────────────────────────────
-      subtitle: Text(
+      subtitle: Row(
+  children: [
+    Expanded(
+      child: Text(
         conversation.lastMessage,
-        // Prevent long messages from wrapping to a second line
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
+        style: TextStyle(
+          color: Colors.grey.shade700,
+        ),
       ),
+    ),
+
+    if (conversation.isUnread)
+      Container(
+        margin: const EdgeInsets.only(left: 8),
+        width: 10,
+        height: 10,
+        decoration: const BoxDecoration(
+          color: Colors.blue,
+          shape: BoxShape.circle,
+        ),
+      ),
+  ],
+),
 
       // ── onTap: what happens when the user taps this tile ──────────────────
       onTap: () {

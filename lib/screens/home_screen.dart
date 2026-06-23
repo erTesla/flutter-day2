@@ -1,83 +1,270 @@
-// screens/home_screen.dart
-// This is the FIRST screen users see when the app launches.
-//
-// WHAT IT CONTAINS:
-//   • An AppBar with the app title
-//   • A welcome message
-//   • A button that navigates to the Messages Screen
-
 import 'package:flutter/material.dart';
-import 'messages_screen.dart'; // Import the next screen for navigation
+import 'messages_screen.dart';
 
-// HomeScreen is a StatelessWidget because it has no changing state –
-// it always looks the same every time it is built.
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Scaffold provides the basic visual structure: AppBar + body area.
     return Scaffold(
-      // ── AppBar ─────────────────────────────────────────────────────────────
+      backgroundColor: Colors.white,
+
       appBar: AppBar(
-        title: const Text('Flutter Chat App'),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+
+        title: const Text(
+          'Instagram',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.add_box_outlined,
+              color: Colors.black,
+            ),
+          ),
+
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.favorite_border,
+              color: Colors.black,
+            ),
+          ),
+
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const MessagesScreen(),
+                ),
+              );
+            },
+            icon: const Icon(
+              Icons.send_outlined,
+              color: Colors.black,
+            ),
+          ),
+        ],
       ),
 
-      // ── Body ───────────────────────────────────────────────────────────────
-      // Center aligns its child widget both horizontally and vertically.
-      body: Center(
-        // Column stacks widgets vertically.
-        child: Column(
-          // mainAxisAlignment controls how children are spaced along the vertical axis.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // ── Welcome icon ───────────────────────────────────────────────
-            const Icon(
-              Icons.chat_bubble_outline,
-              size: 80,
-              color: Colors.blueGrey,
-            ),
+      body: ListView(
+        children: [
 
-            const SizedBox(height: 24), // Empty space between widgets
-
-            // ── Welcome text ───────────────────────────────────────────────
-            const Text(
-              'Welcome to Flutter Chat!',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+          // STORIES
+          SizedBox(
+            height: 130,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 10,
               ),
-            ),
+              itemCount: 10,
+              itemBuilder: (context, index) {
 
-            const SizedBox(height: 8),
+                final names = [
+                  'Your Story',
+                  'Alice',
+                  'Bob',
+                  'Carol',
+                  'David',
+                  'Eva',
+                  'Frank',
+                  'Grace',
+                  'Henry',
+                  'Isla',
+                ];
 
-            const Text(
-              'Tap the button below to see your messages.',
-              style: TextStyle(fontSize: 14, color: Colors.grey),
-              textAlign: TextAlign.center,
-            ),
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Column(
+                    children: [
 
-            const SizedBox(height: 40),
+                      Container(
+                        padding: const EdgeInsets.all(3),
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Color(0xFFF58529),
+                              Color(0xFFDD2A7B),
+                              Color(0xFF8134AF),
+                              Color(0xFF515BD4),
+                            ],
+                          ),
+                        ),
+                        child: CircleAvatar(
+                          radius: 32,
+                          backgroundColor: Colors.grey.shade300,
+                          child: Text(
+                            names[index][0],
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ),
 
-            // ── Navigation button ──────────────────────────────────────────
-            ElevatedButton(
-              onPressed: () {
-                // NAVIGATION: Navigator.push() opens a new screen.
-                // Think of it like stacking screens on top of each other.
-                // The user presses the back button to return to this screen.
-                Navigator.push(
-                  context,
-                  // MaterialPageRoute wraps the new screen with a slide animation.
-                  MaterialPageRoute(
-                    builder: (context) => const MessagesScreen(),
+                      const SizedBox(height: 6),
+
+                      SizedBox(
+                        width: 70,
+                        child: Text(
+                          names[index],
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 11,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 );
               },
-              child: const Text('Open Messages'),
             ),
-          ],
-        ),
+          ),
+
+          const Divider(height: 1),
+
+          ...List.generate(
+            5,
+            (index) => _buildPost(index),
+          ),
+        ],
       ),
+    );
+  }
+
+  Widget _buildPost(int index) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+
+        // POST HEADER
+        ListTile(
+          leading: CircleAvatar(
+            backgroundColor: Colors.grey.shade300,
+            child: Text(
+              String.fromCharCode(65 + index),
+              style: const TextStyle(
+                color: Colors.black,
+              ),
+            ),
+          ),
+
+          title: Text(
+            'user_$index',
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
+          ),
+
+          trailing: const Icon(Icons.more_horiz),
+        ),
+
+        // IMAGE PLACEHOLDER
+        Container(
+          height: 350,
+          width: double.infinity,
+          color: Colors.grey.shade300,
+          child: const Center(
+            child: Icon(
+              Icons.image,
+              size: 80,
+              color: Colors.grey,
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 10),
+
+        // ACTION BUTTONS
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12),
+          child: Row(
+            children: [
+              Icon(Icons.favorite_border, size: 28),
+
+              SizedBox(width: 16),
+
+              Icon(Icons.mode_comment_outlined, size: 28),
+
+              SizedBox(width: 16),
+
+              Icon(Icons.send_outlined, size: 28),
+
+              Spacer(),
+
+              Icon(Icons.bookmark_border, size: 28),
+            ],
+          ),
+        ),
+
+        const SizedBox(height: 10),
+
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12),
+          child: Text(
+            'Liked by alex and 128 others',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: RichText(
+            text: const TextSpan(
+              style: TextStyle(color: Colors.black),
+              children: [
+                TextSpan(
+                  text: 'user ',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                TextSpan(
+                  text:
+                      'This is a sample Instagram-style post for our Flutter clone project.',
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 12),
+
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12),
+          child: Text(
+            'View all comments',
+            style: TextStyle(
+              color: Colors.grey,
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 20),
+      ],
     );
   }
 }

@@ -5,16 +5,23 @@
 // ─── Conversation Model ───────────────────────────────────────────────────────
 // Represents a single conversation entry shown in the Messages list screen.
 class Conversation {
-  final String name;        // The contact's name
-  final String lastMessage; // Preview of the most recent message
-  final String avatarLetter; // Letter used to display the avatar circle
+  final String name;
+  final String lastMessage;
+  final String avatarLetter;
 
-  // Constructor: called when creating a new Conversation object.
-  // The "required" keyword means these fields must always be provided.
+  // Instagram-like additions
+  final bool isOnline;
+  final bool isUnread;
+  final String time;
+
   const Conversation({
     required this.name,
     required this.lastMessage,
     required this.avatarLetter,
+
+    required this.isOnline,
+    required this.isUnread,
+    required this.time,
   });
 }
 
@@ -34,16 +41,86 @@ class ChatMessage {
 // Hard-coded fake conversations shown in the Messages Screen.
 // In a real app this data would come from a server or database.
 final List<Conversation> sampleConversations = [
-  Conversation(name: 'Alice Johnson',   lastMessage: 'See you tomorrow!',          avatarLetter: 'A'),
-  Conversation(name: 'Bob Smith',       lastMessage: 'Can you send the file?',     avatarLetter: 'B'),
-  Conversation(name: 'Carol White',     lastMessage: 'That sounds great 👍',        avatarLetter: 'C'),
-  Conversation(name: 'David Brown',     lastMessage: 'On my way!',                 avatarLetter: 'D'),
-  Conversation(name: 'Eva Martinez',    lastMessage: 'Happy birthday!! 🎉',         avatarLetter: 'E'),
-  Conversation(name: 'Frank Lee',       lastMessage: 'Let me check and get back.', avatarLetter: 'F'),
-  Conversation(name: 'Grace Kim',       lastMessage: 'The meeting is at 3pm.',     avatarLetter: 'G'),
-  Conversation(name: 'Henry Wilson',    lastMessage: 'Did you see the news?',      avatarLetter: 'H'),
-  Conversation(name: 'Isla Thompson',   lastMessage: 'Just landed. Safe!',         avatarLetter: 'I'),
-  Conversation(name: 'Jack Davis',      lastMessage: 'Coffee tomorrow? ☕',         avatarLetter: 'J'),
+  Conversation(
+    name: 'Alice Johnson',
+    lastMessage: 'See you tomorrow!',
+    avatarLetter: 'A',
+    isOnline: true,
+    isUnread: true,
+    time: '2m',
+  ),
+  Conversation(
+    name: 'Bob Smith',
+    lastMessage: 'Can you send the file?',
+    avatarLetter: 'B',
+    isOnline: false,
+    isUnread: false,
+    time: '1h',
+  ),
+  Conversation(
+    name: 'Carol White',
+    lastMessage: 'That sounds great 👍',
+    avatarLetter: 'C',
+    isOnline: true,
+    isUnread: true,
+    time: '5m',
+  ),
+  Conversation(
+    name: 'David Brown',
+    lastMessage: 'On my way!',
+    avatarLetter: 'D',
+    isOnline: true,
+    isUnread: false,
+    time: '12m',
+  ),
+  Conversation(
+    name: 'Eva Martinez',
+    lastMessage: 'Happy birthday!! 🎉',
+    avatarLetter: 'E',
+    isOnline: false,
+    isUnread: true,
+    time: '20m',
+  ),
+  Conversation(
+    name: 'Frank Lee',
+    lastMessage: 'Let me check and get back.',
+    avatarLetter: 'F',
+    isOnline: true,
+    isUnread: false,
+    time: '45m',
+  ),
+  Conversation(
+    name: 'Grace Kim',
+    lastMessage: 'The meeting is at 3pm.',
+    avatarLetter: 'G',
+    isOnline: false,
+    isUnread: false,
+    time: '2h',
+  ),
+  Conversation(
+    name: 'Henry Wilson',
+    lastMessage: 'Did you see the news?',
+    avatarLetter: 'H',
+    isOnline: true,
+    isUnread: true,
+    time: '3h',
+  ),
+  Conversation(
+    name: 'Isla Thompson',
+    lastMessage: 'Just landed. Safe!',
+    avatarLetter: 'I',
+    isOnline: true,
+    isUnread: false,
+    time: '5h',
+  ),
+  Conversation(
+    name: 'Jack Davis',
+    lastMessage: 'Coffee tomorrow? ☕',
+    avatarLetter: 'J',
+    isOnline: false,
+    isUnread: true,
+    time: '1d',
+  ),
 ];
 
 // Hard-coded fake chat messages shown inside the Chat Screen.

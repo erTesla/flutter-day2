@@ -21,11 +21,73 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       // ── AppBar ─────────────────────────────────────────────────────────────
       appBar: AppBar(
-        // Display the contact's name passed in from the previous screen
-        title: Text(contactName),
+  backgroundColor: Colors.white,
+  elevation: 0,
+
+  titleSpacing: 0,
+
+  title: Row(
+    children: [
+      const CircleAvatar(
+        radius: 18,
+        backgroundColor: Colors.grey,
+        child: Icon(
+          Icons.person,
+          color: Colors.white,
+          size: 18,
+        ),
       ),
+
+      const SizedBox(width: 12),
+
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              contactName,
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+
+            const Text(
+              'Active now',
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 12,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ],
+  ),
+
+  iconTheme: const IconThemeData(color: Colors.black),
+
+  actions: [
+    IconButton(
+      onPressed: () {},
+      icon: const Icon(Icons.call_outlined),
+    ),
+
+    IconButton(
+      onPressed: () {},
+      icon: const Icon(Icons.videocam_outlined),
+    ),
+
+    IconButton(
+      onPressed: () {},
+      icon: const Icon(Icons.info_outline),
+    ),
+  ],
+),
 
       // ── Body ───────────────────────────────────────────────────────────────
       // Column splits the screen into two parts:
@@ -37,16 +99,29 @@ class ChatScreen extends StatelessWidget {
           // Expanded makes this widget fill all available vertical space
           // so the input bar stays pinned to the bottom.
           Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.all(12),
-              itemCount: sampleChatMessages.length,
-              itemBuilder: (context, index) {
-                final message = sampleChatMessages[index];
-                // Build one chat bubble per message
-                return _buildMessageBubble(message);
-              },
+  child: ListView(
+    padding: const EdgeInsets.all(12),
+    children: [
+
+      const Center(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 10),
+          child: Text(
+            'Today',
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 12,
             ),
           ),
+        ),
+      ),
+
+      ...sampleChatMessages.map(
+        (message) => _buildMessageBubble(message),
+      ),
+    ],
+  ),
+),
 
           // ── Input Bar ────────────────────────────────────────────────────
           _buildInputBar(),
@@ -64,7 +139,10 @@ class ChatScreen extends StatelessWidget {
         message.isSentByMe ? CrossAxisAlignment.end : CrossAxisAlignment.start;
 
     // Blue for "me", grey for the other person
-    final bubbleColor = message.isSentByMe ? Colors.blue[100] : Colors.grey[200];
+    final bubbleColor =
+    message.isSentByMe
+        ? Colors.blueAccent
+        : Colors.grey.shade200;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
@@ -79,11 +157,16 @@ class ChatScreen extends StatelessWidget {
             constraints: const BoxConstraints(maxWidth: 280),
             decoration: BoxDecoration(
               color: bubbleColor,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(22),
             ),
             child: Text(
               message.text,
-              style: const TextStyle(fontSize: 15),
+              style: TextStyle(
+  fontSize: 15,
+  color: message.isSentByMe
+      ? Colors.white
+      : Colors.black,
+),
             ),
           ),
         ],
@@ -109,7 +192,7 @@ class ChatScreen extends StatelessWidget {
           Expanded(
             child: TextField(
               decoration: InputDecoration(
-                hintText: 'Type a message…',
+                hintText: 'Message...',
                 // OutlineInputBorder adds a visible border around the field
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(24),
