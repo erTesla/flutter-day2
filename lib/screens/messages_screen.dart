@@ -18,6 +18,7 @@ class MessagesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF121212),
       // ── AppBar ─────────────────────────────────────────────────────────────
       appBar: AppBar(
         title: const Text('Messages'),

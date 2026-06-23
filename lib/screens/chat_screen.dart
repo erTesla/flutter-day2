@@ -21,10 +21,16 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // ── AppBar ─────────────────────────────────────────────────────────────
+      // ── AppBar ────────
+      // b─────────────────────────────────────────────────────
+      backgroundColor: const Color(0xFF121212) ,
       appBar: AppBar(
+        backgroundColor: const Color(0xFF121212),
+        foregroundColor: Colors.white,
         // Display the contact's name passed in from the previous screen
         title: Text(contactName),
+        
+        
       ),
 
       // ── Body ───────────────────────────────────────────────────────────────
@@ -64,7 +70,9 @@ class ChatScreen extends StatelessWidget {
         message.isSentByMe ? CrossAxisAlignment.end : CrossAxisAlignment.start;
 
     // Blue for "me", grey for the other person
-    final bubbleColor = message.isSentByMe ? Colors.blue[100] : Colors.grey[200];
+    final bubbleColor = message.isSentByMe 
+      ? const Color(0xFFE1306C) 
+      :Colors.blue;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
@@ -83,7 +91,11 @@ class ChatScreen extends StatelessWidget {
             ),
             child: Text(
               message.text,
-              style: const TextStyle(fontSize: 15),
+              style: const TextStyle(
+                fontSize: 15,
+                
+                ),
+
             ),
           ),
         ],
