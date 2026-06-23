@@ -1,79 +1,87 @@
 // screens/home_screen.dart
-// This is the FIRST screen users see when the app launches.
-//
-// WHAT IT CONTAINS:
-//   • An AppBar with the app title
-//   • A welcome message
-//   • A button that navigates to the Messages Screen
+// This is the FIRST screen users see when the app launches – transformed into an Instagram Style Feed view.
 
 import 'package:flutter/material.dart';
-import 'messages_screen.dart'; // Import the next screen for navigation
+import 'messages_screen.dart'; // Import the messages screen for inbox navigation
 
-// HomeScreen is a StatelessWidget because it has no changing state –
-// it always looks the same every time it is built.
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Scaffold provides the basic visual structure: AppBar + body area.
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor = isDarkMode ? Colors.black : Colors.white;
+    final iconColor = isDarkMode ? Colors.white : Colors.black;
+
     return Scaffold(
-      // ── AppBar ─────────────────────────────────────────────────────────────
+      backgroundColor: backgroundColor,
+
+      // ── AppBar: Instagram Branded Top Header ──────────────────────────────
       appBar: AppBar(
-        title: const Text('Flutter Chat App'),
+        backgroundColor: backgroundColor,
+        elevation: 0.5,
+        centerTitle: false,
+        title: Text(
+          'Instagram',
+          style: TextStyle(
+            fontFamily: 'Billboard', // In a real app, you would add Instagram's cursive font asset here
+            fontSize: 26,
+            fontWeight: FontWeight.bold,
+            color: iconColor,
+            fontStyle: FontStyle.italic,
+          ),
+        ),
+        actions: [
+          // The iconic heart notification bell icon
+          IconButton(
+            icon: Icon(Icons.favorite_border, color: iconColor),
+            onPressed: () {},
+          ),
+          // ── DM Navigation Action Button ──
+          IconButton(
+            icon: Icon(Icons.send_rounded, color: iconColor), // Looks like the signature DM paper airplane icon
+            onPressed: () {
+              // NAVIGATION: Pushes the Instagram Direct Messages (Inbox) screen on top of the stack
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const MessagesScreen(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
 
-      // ── Body ───────────────────────────────────────────────────────────────
-      // Center aligns its child widget both horizontally and vertically.
+      // ── Body: Simulated Instagram Feed Placeholder ────────────────────────
       body: Center(
-        // Column stacks widgets vertically.
         child: Column(
-          // mainAxisAlignment controls how children are spaced along the vertical axis.
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // ── Welcome icon ───────────────────────────────────────────────
-            const Icon(
-              Icons.chat_bubble_outline,
+            // Instagram styled placeholder icon
+            Icon(
+              Icons.camera_alt_outlined,
               size: 80,
-              color: Colors.blueGrey,
+              color: isDarkMode ? Colors.grey[700] : Colors.grey[400],
             ),
-
-            const SizedBox(height: 24), // Empty space between widgets
-
-            // ── Welcome text ───────────────────────────────────────────────
-            const Text(
-              'Welcome to Flutter Chat!',
+            const SizedBox(height: 16),
+            Text(
+              'Your Main Feed',
               style: TextStyle(
-                fontSize: 22,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
+                color: iconColor,
               ),
             ),
-
             const SizedBox(height: 8),
-
-            const Text(
-              'Tap the button below to see your messages.',
-              style: TextStyle(fontSize: 14, color: Colors.grey),
+            Text(
+              'Tap the paper airplane icon in the top right\ncorner to open your Direct Messages inbox.',
+              style: TextStyle(
+                fontSize: 14, 
+                color: Colors.grey[600],
+                height: 1.4,
+              ),
               textAlign: TextAlign.center,
-            ),
-
-            const SizedBox(height: 40),
-
-            // ── Navigation button ──────────────────────────────────────────
-            ElevatedButton(
-              onPressed: () {
-                // NAVIGATION: Navigator.push() opens a new screen.
-                // Think of it like stacking screens on top of each other.
-                // The user presses the back button to return to this screen.
-                Navigator.push(
-                  context,
-                  // MaterialPageRoute wraps the new screen with a slide animation.
-                  MaterialPageRoute(
-                    builder: (context) => const MessagesScreen(),
-                  ),
-                );
-              },
-              child: const Text('Open Messages'),
             ),
           ],
         ),

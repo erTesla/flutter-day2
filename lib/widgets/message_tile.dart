@@ -1,63 +1,130 @@
 // widgets/message_tile.dart
-// A reusable widget that displays ONE conversation row in the Messages list.
-//
-// WHY A SEPARATE WIDGET?
-// Instead of writing the same tile code 10 times inside the ListView,
-// we extract it into its own widget so it can be reused and is easy to edit.
+// A reusable widget that displays ONE Instagram-style conversation row in the Inbox list.
 
 import 'package:flutter/material.dart';
-import '../models/message.dart'; // Import the Conversation model
-import '../screens/chat_screen.dart'; // Import Chat Screen for navigation
+import '../models/message.dart';       // Enhanced Conversation model
+import '../screens/chat_screen.dart';   // Updated Chat Screen
 
 class MessageTile extends StatelessWidget {
-  // The conversation data this tile should display
   final Conversation conversation;
 
-  // Constructor – requires a conversation object
   const MessageTile({super.key, required this.conversation});
 
   @override
   Widget build(BuildContext context) {
-    // ListTile is a built-in Flutter widget perfect for list rows.
-    // It has built-in slots for a leading icon, title, subtitle, and trailing widget.
-    return ListTile(
-      // ── Leading: the round avatar circle on the left ──────────────────────
-      leading: CircleAvatar(
-        // Background color – students can change this later
-        backgroundColor: Colors.blueGrey,
-        // Show the first letter of the contact's name
-        child: Text(
-          conversation.avatarLetter,
-          style: const TextStyle(color: Colors.white),
-        ),
-      ),
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final mainTextColor = isDarkMode ? Colors.white : Colors.black;
+    final hasUnread = conversation.unreadCount > 0;
 
-      // ── Title: the contact's name ─────────────────────────────────────────
-      title: Text(conversation.name),
-
-      // ── Subtitle: preview of the last message ─────────────────────────────
-      subtitle: Text(
-        conversation.lastMessage,
-        // Prevent long messages from wrapping to a second line
-        overflow: TextOverflow.ellipsis,
-        maxLines: 1,
-      ),
-
-      // ── onTap: what happens when the user taps this tile ──────────────────
+    return InkWell(
+      // InkWell gives a subtle tap ripple effect native to social apps
       onTap: () {
-        // NAVIGATION: Push the ChatScreen onto the navigation stack.
-        // Navigator.push() adds a new screen on top of the current one.
-        // The user can go back by pressing the back button (added automatically).
+        // Navigates directly into the enhanced Instagram Chat view
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => ChatScreen(
-              // Pass the contact name so the Chat Screen can display it in the AppBar
-              contactName: conversation.name,
+              username: conversation.username,
+              fullName: conversation.fullName,
+              avatarUrl: conversation.avatarUrl,
             ),
           ),
         );
       },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        child: Row(
+          children: [
+            // ── Leading: Avatar Stack with Live Active Badge ─────────────────
+            Stack(
+              children: [
+                CircleAvatar(
+                  radius: 28,
+                  backgroundImage: NetworkImage(conversation.avatarUrl),
+                ),
+                // Instagram signature: green dot border if the user is currently online
+                if (conversation.isOnline)
+                  Positioned(
+                    right: 0,
+                    bottom: 0,
+                    child: Container(
+                      width: 16,
+                      height: 16,
+                      decoration: BoxDecoration(
+                        color: Colors.green,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: isDarkMode ? Colors.black : Colors.white,
+                          width: 3,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+            const SizedBox(width: 16),
+
+            // ── Center Content: Username & Message Metadata ──────────────────
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Instagram prioritizes handles (usernames) over full names in DMs
+                  Text(
+                    conversation.username,
+                    style: TextStyle(
+                      color: mainTextColor,
+                      fontSize: 15,
+                      fontWeight: hasUnread ? FontWeight.bold : FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 3),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          conversation.lastMessage,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: hasUnread ? mainTextColor : Colors.grey,
+                            fontSize: 14,
+                            fontWeight: hasUnread ? FontWeight.bold : FontWeight.normal,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      // Time stamp dot separator (e.g., "• 2h")
+                      Text(
+                        '• ${conversation.timeString}',
+                        style: const TextStyle(color: Colors.grey, fontSize: 13),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+
+            // ── Trailing Indicators: Unread Status vs Camera Shortcut ────────
+            if (hasUnread)
+              Container(
+                width: 8,
+                height: 8,
+                decoration: const BoxDecoration(
+                  color: Colors.blueAccent,
+                  shape: BoxShape.circle,
+                ),
+              )
+            else
+              Icon(
+                Icons.camera_alt_outlined,
+                color: Colors.grey[500],
+                size: 24,
+              ),
+          ],
+        ),
+      ),
     );
   }
 }
