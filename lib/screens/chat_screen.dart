@@ -1,18 +1,7 @@
 // screens/chat_screen.dart
-// This is the THIRD screen – a simple chat conversation view.
-//
-// WHAT IT CONTAINS:
-//   • An AppBar showing the contact's name
-//   • A scrollable list of static chat messages
-//   • Messages from "me" appear on the RIGHT in blue
-//   • Messages from the other person appear on the LEFT in grey
-//   • A text input field + Send button at the bottom (no functionality)
-
 import 'package:flutter/material.dart';
 import '../models/message.dart'; // ChatMessage model + sample data
 
-// ChatScreen receives the contact name from the Messages Screen via its constructor.
-// This is how Flutter passes data between screens.
 class ChatScreen extends StatelessWidget {
   final String contactName; // The name shown in the AppBar
 
@@ -21,69 +10,118 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white, // Pure white background throughout
       // ── AppBar ─────────────────────────────────────────────────────────────
       appBar: AppBar(
-        // Display the contact's name passed in from the previous screen
-        title: Text(contactName),
+        backgroundColor: Colors.white,
+        elevation: 0.5, // Crisp, thin border line
+        iconTheme: const IconThemeData(color: Colors.black),
+        titleSpacing: 0, // Pulls avatar closer to back button
+        title: Row(
+          children: [
+            CircleAvatar(
+              radius: 16,
+              backgroundImage: NetworkImage(
+                'https://i.pravatar.cc/150?name=$contactName', // Dynamically grabs placeholder
+              ),
+            ),
+            const SizedBox(width: 12),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  contactName,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Text(
+                  'Active now',
+                  style: TextStyle(color: Colors.grey, fontSize: 11),
+                ),
+              ],
+            ),
+          ],
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.phone_outlined, color: Colors.black),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(Icons.videocam_outlined, color: Colors.black),
+            onPressed: () {},
+          ),
+          const SizedBox(width: 4),
+        ],
       ),
 
       // ── Body ───────────────────────────────────────────────────────────────
-      // Column splits the screen into two parts:
-      //   1. The message list (takes all remaining space)
-      //   2. The input bar at the bottom (fixed height)
       body: Column(
         children: [
           // ── Message List ─────────────────────────────────────────────────
-          // Expanded makes this widget fill all available vertical space
-          // so the input bar stays pinned to the bottom.
           Expanded(
             child: ListView.builder(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               itemCount: sampleChatMessages.length,
               itemBuilder: (context, index) {
                 final message = sampleChatMessages[index];
-                // Build one chat bubble per message
-                return _buildMessageBubble(message);
+                return _buildInstagramMessageBubble(message);
               },
             ),
           ),
 
           // ── Input Bar ────────────────────────────────────────────────────
-          _buildInputBar(),
+          _buildInstagramInputBar(),
         ],
       ),
     );
   }
 
-  // ─── Helper: Chat Bubble ──────────────────────────────────────────────────
-  // Builds a single chat bubble widget.
-  // Private methods start with _ by convention (they're only used inside this file).
-  Widget _buildMessageBubble(ChatMessage message) {
-    // Align right if sent by me, left if sent by the other person
-    final alignment =
-        message.isSentByMe ? CrossAxisAlignment.end : CrossAxisAlignment.start;
-
-    // Blue for "me", grey for the other person
-    final bubbleColor = message.isSentByMe ? Colors.blue[100] : Colors.grey[200];
+  // ─── Helper: Instagram Style Chat Bubble ──────────────────────────────────
+  Widget _buildInstagramMessageBubble(ChatMessage message) {
+    final isMe = message.isSentByMe;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Column(
-        // crossAxisAlignment controls horizontal alignment inside the Column
-        crossAxisAlignment: alignment,
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: Row(
+        mainAxisAlignment: isMe
+            ? MainAxisAlignment.end
+            : MainAxisAlignment.start,
         children: [
-          // The bubble itself is a simple Container with rounded corners
+          // If message is from someone else, we show their micro avatar on the left
+          if (!isMe) ...[
+            CircleAvatar(
+              radius: 11,
+              backgroundImage: NetworkImage(
+                'https://i.pravatar.cc/150?name=$contactName',
+              ),
+            ),
+            const SizedBox(width: 8),
+          ],
+
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-            // Limit bubble width so long messages don't span the full screen
-            constraints: const BoxConstraints(maxWidth: 280),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            constraints: const BoxConstraints(maxWidth: 260),
             decoration: BoxDecoration(
-              color: bubbleColor,
-              borderRadius: BorderRadius.circular(16),
+              // Instagram uses a clean blue color or a gradient for "Me"
+              color: isMe ? const Color(0xFF3797EF) : const Color(0xFFEFEFEF),
+              borderRadius: BorderRadius.only(
+                topLeft: const Radius.circular(20),
+                topRight: const Radius.circular(20),
+                bottomLeft: Radius.circular(isMe ? 20 : 4),
+                bottomRight: Radius.circular(isMe ? 4 : 20),
+              ),
             ),
             child: Text(
               message.text,
-              style: const TextStyle(fontSize: 15),
+              style: TextStyle(
+                fontSize: 15,
+                // Sent text is white, received text is black
+                color: isMe ? Colors.white : Colors.black,
+              ),
             ),
           ),
         ],
@@ -91,50 +129,78 @@ class ChatScreen extends StatelessWidget {
     );
   }
 
-  // ─── Helper: Input Bar ────────────────────────────────────────────────────
-  // Builds the message input area at the bottom of the screen.
-  // The Send button has no functionality – students can add it later!
-  Widget _buildInputBar() {
-    return Container(
-      // A light border on top to visually separate the input from messages
-      decoration: BoxDecoration(
+  // ─── Helper: Instagram Style Rounded Pill Input Bar ────────────────────────
+  Widget _buildInstagramInputBar() {
+    return SafeArea(
+      // Ensures compatibility with bottom screen notches
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         color: Colors.white,
-        border: Border(top: BorderSide(color: Colors.grey.shade300)),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-      child: Row(
-        children: [
-          // ── Text Field ──────────────────────────────────────────────────
-          // Expanded makes the TextField fill the remaining width
-          Expanded(
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Type a message…',
-                // OutlineInputBorder adds a visible border around the field
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(24),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 4),
+          decoration: BoxDecoration(
+            color: const Color(0xFFFAFAFA), // Off-white field fill color
+            borderRadius: BorderRadius.circular(28),
+            border: Border.all(color: Colors.grey.shade200, width: 1.5),
+          ),
+          child: Row(
+            children: [
+              // Camera / Mic shortcut container icon
+              const Padding(
+                padding: EdgeInsets.all(4.0),
+                child: CircleAvatar(
+                  radius: 16,
+                  backgroundColor: Color(0xFF3797EF),
+                  child: Icon(Icons.camera_alt, size: 16, color: Colors.white),
                 ),
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               ),
-            ),
-          ),
 
-          const SizedBox(width: 8), // Space between field and button
+              const SizedBox(width: 4),
 
-          // ── Send Button ─────────────────────────────────────────────────
-          // IconButton wraps an icon and makes it tappable.
-          // onPressed is empty (no functionality) – a student assignment!
-          IconButton(
-            icon: const Icon(Icons.send),
-            color: Colors.blue,
-            onPressed: () {
-              // TODO: Students – add send functionality here!
-              // Hint: You'll need to convert this to a StatefulWidget
-              // and manage a TextEditingController.
-            },
+              // ── Text Input Area ────────────────────────────────────────────
+              Expanded(
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Message...',
+                    hintStyle: TextStyle(
+                      color: Colors.grey.shade400,
+                      fontSize: 15,
+                    ),
+                    border: InputBorder.none, // Strip standard border lines
+                    contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                  ),
+                ),
+              ),
+
+              // Right-hand side helper action media items
+              IconButton(
+                icon: const Icon(Icons.mic_none, color: Colors.black, size: 22),
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: const Icon(
+                  Icons.image_outlined,
+                  color: Colors.black,
+                  size: 22,
+                ),
+                onPressed: () {},
+              ),
+
+              // Instagram styled Text "Send" action link
+              TextButton(
+                onPressed: () {},
+                child: const Text(
+                  'Send',
+                  style: TextStyle(
+                    color: Color(0xFF3797EF),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
