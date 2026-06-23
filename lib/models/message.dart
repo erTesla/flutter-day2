@@ -1,62 +1,69 @@
-// models/message.dart
-// This file defines the data models used throughout the app.
-// A "model" is just a Dart class that holds structured data.
-
-// ─── Conversation Model ───────────────────────────────────────────────────────
-// Represents a single conversation entry shown in the Messages list screen.
 class Conversation {
-  final String name;        // The contact's name
-  final String lastMessage; // Preview of the most recent message
-  final String avatarLetter; // Letter used to display the avatar circle
+  final String name;
+  final String avatarLetter;
+  final String lastMessage;
 
-  // Constructor: called when creating a new Conversation object.
-  // The "required" keyword means these fields must always be provided.
-  const Conversation({
+  Conversation({
     required this.name,
-    required this.lastMessage,
     required this.avatarLetter,
+    required this.lastMessage,
   });
 }
 
-// ─── ChatMessage Model ────────────────────────────────────────────────────────
-// Represents a single chat bubble inside the Chat Screen.
-class ChatMessage {
-  final String text;      // The text content of the message
-  final bool isSentByMe;  // true = shown on the right (me), false = left (them)
+enum MessageStatus { sending, sent, delivered, read }
 
-  const ChatMessage({
+class ChatMessage {
+  final String id;
+  String text;
+  bool isSentByMe;
+  DateTime timestamp;
+  MessageStatus status;
+  String? reaction; // simple emoji
+  String? replyToId;
+
+  ChatMessage({
+    required this.id,
     required this.text,
     required this.isSentByMe,
-  });
+    DateTime? timestamp,
+    this.status = MessageStatus.sent,
+    this.reaction,
+    this.replyToId,
+  }) : timestamp = timestamp ?? DateTime.now();
 }
 
-// ─── Sample Data ──────────────────────────────────────────────────────────────
-// Hard-coded fake conversations shown in the Messages Screen.
-// In a real app this data would come from a server or database.
 final List<Conversation> sampleConversations = [
-  Conversation(name: 'Alice Johnson',   lastMessage: 'See you tomorrow!',          avatarLetter: 'A'),
-  Conversation(name: 'Bob Smith',       lastMessage: 'Can you send the file?',     avatarLetter: 'B'),
-  Conversation(name: 'Carol White',     lastMessage: 'That sounds great 👍',        avatarLetter: 'C'),
-  Conversation(name: 'David Brown',     lastMessage: 'On my way!',                 avatarLetter: 'D'),
-  Conversation(name: 'Eva Martinez',    lastMessage: 'Happy birthday!! 🎉',         avatarLetter: 'E'),
-  Conversation(name: 'Frank Lee',       lastMessage: 'Let me check and get back.', avatarLetter: 'F'),
-  Conversation(name: 'Grace Kim',       lastMessage: 'The meeting is at 3pm.',     avatarLetter: 'G'),
-  Conversation(name: 'Henry Wilson',    lastMessage: 'Did you see the news?',      avatarLetter: 'H'),
-  Conversation(name: 'Isla Thompson',   lastMessage: 'Just landed. Safe!',         avatarLetter: 'I'),
-  Conversation(name: 'Jack Davis',      lastMessage: 'Coffee tomorrow? ☕',         avatarLetter: 'J'),
+  Conversation(
+    name: 'alice',
+    avatarLetter: 'A',
+    lastMessage: 'Beautiful sunset today',
+  ),
+  Conversation(
+    name: 'bob',
+    avatarLetter: 'B',
+    lastMessage: 'Learning Flutter is fun',
+  ),
+  Conversation(
+    name: 'carol',
+    avatarLetter: 'C',
+    lastMessage: 'Weekend vibes',
+  ),
+  Conversation(
+    name: 'david',
+    avatarLetter: 'D',
+    lastMessage: 'Coffee and coding',
+  ),
+  Conversation(
+    name: 'eva',
+    avatarLetter: 'E',
+    lastMessage: 'Exploring new places',
+  ),
 ];
 
-// Hard-coded fake chat messages shown inside the Chat Screen.
-// These are reused for every conversation (it's a demo app).
-final List<ChatMessage> sampleChatMessages = [
-  ChatMessage(text: 'Hey! How are you?',               isSentByMe: false),
-  ChatMessage(text: 'I\'m good, thanks! You?',         isSentByMe: true),
-  ChatMessage(text: 'Doing well! What\'s up?',         isSentByMe: false),
-  ChatMessage(text: 'Just working on a Flutter app 📱', isSentByMe: true),
-  ChatMessage(text: 'Oh nice! How is it going?',       isSentByMe: false),
-  ChatMessage(text: 'Pretty well. Learning a lot!',    isSentByMe: true),
-  ChatMessage(text: 'Flutter is awesome 🚀',           isSentByMe: false),
-  ChatMessage(text: 'Agreed! Love the hot reload.',    isSentByMe: true),
-  ChatMessage(text: 'Let me know if you need help.',   isSentByMe: false),
-  ChatMessage(text: 'Will do. Thanks! 😊',             isSentByMe: true),
+List<ChatMessage> sampleChatMessages = [
+  ChatMessage(id: 'm1', text: 'Hey, are you free later today?', isSentByMe: false, timestamp: DateTime.now().subtract(const Duration(minutes: 65))),
+  ChatMessage(id: 'm2', text: 'Yes, I should be available after 5.', isSentByMe: true, timestamp: DateTime.now().subtract(const Duration(minutes: 60)), status: MessageStatus.read),
+  ChatMessage(id: 'm3', text: 'Perfect. Want to grab coffee?', isSentByMe: false, timestamp: DateTime.now().subtract(const Duration(minutes: 58))),
+  ChatMessage(id: 'm4', text: 'That works for me.', isSentByMe: true, timestamp: DateTime.now().subtract(const Duration(minutes: 55)), status: MessageStatus.delivered),
+  ChatMessage(id: 'm5', text: 'See you then!', isSentByMe: false, timestamp: DateTime.now().subtract(const Duration(minutes: 50))),
 ];
