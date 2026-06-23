@@ -1,53 +1,130 @@
-// screens/messages_screen.dart
-// This is the SECOND screen – a scrollable list of conversations.
-//
-// WHAT IT CONTAINS:
-//   • An AppBar titled "Messages"
-//   • A ListView displaying 10 fake conversations
-//   • Each conversation uses the reusable MessageTile widget
-//   • Tapping a conversation navigates to the Chat Screen
-
 import 'package:flutter/material.dart';
-import '../models/message.dart';       // Sample conversation data
-import '../widgets/message_tile.dart'; // Reusable tile widget
+import 'chat_screen.dart';
 
-// MessagesScreen is StatelessWidget – the list is hard-coded so it never changes.
 class MessagesScreen extends StatelessWidget {
   const MessagesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, String>> chats = [
+      {
+        'name': 'Anu',
+        'message': 'Hey! How are you?',
+        'time': '2m',
+        'image': 'https://i.pravatar.cc/150?img=2',
+      },
+      {
+        'name': 'Maya',
+        'message': 'Let’s meet tomorrow 😊',
+        'time': '10m',
+        'image': 'https://i.pravatar.cc/150?img=3',
+      },
+      {
+        'name': 'Akhil',
+        'message': 'Sent a reel',
+        'time': '1h',
+        'image': 'https://i.pravatar.cc/150?img=4',
+      },
+      {
+        'name': 'Diya',
+        'message': 'Typing...',
+        'time': '3h',
+        'image': 'https://i.pravatar.cc/150?img=5',
+      },
+      {
+        'name': 'Rahul',
+        'message': 'See you soon!',
+        'time': '5h',
+        'image': 'https://i.pravatar.cc/150?img=6',
+      },
+    ];
+
     return Scaffold(
-      // ── AppBar ─────────────────────────────────────────────────────────────
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Messages'),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: const Text(
+          'anagha_123',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        iconTheme: const IconThemeData(color: Colors.black),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.only(right: 16),
+            child: Icon(Icons.edit_outlined, color: Colors.black),
+          )
+        ],
       ),
+      body: Column(
+        children: [
+          // Search bar
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Search',
+                prefixIcon: const Icon(Icons.search),
+                filled: true,
+                fillColor: Colors.grey.shade200,
+                contentPadding: const EdgeInsets.symmetric(vertical: 0),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+          ),
 
-      // ── Body ───────────────────────────────────────────────────────────────
-      // ListView.builder is the efficient way to display a scrollable list.
-      // It only builds the widgets that are currently visible on screen.
-      body: ListView.builder(
-        // itemCount tells Flutter how many items are in the list.
-        itemCount: sampleConversations.length, // 10 conversations
+          // Messages header
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Messages',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
 
-        // itemBuilder is called once per item to build each row widget.
-        // "index" is the position in the list (0, 1, 2 … 9).
-        itemBuilder: (context, index) {
-          // Get the conversation at this index from our sample data list
-          final conversation = sampleConversations[index];
-
-          // Column + Divider adds a thin line between each conversation tile
-          return Column(
-            children: [
-              // MessageTile is our custom reusable widget (see widgets/message_tile.dart)
-              // We pass the conversation data in, and the tile handles display + navigation.
-              MessageTile(conversation: conversation),
-
-              // A thin horizontal divider line between rows (optional styling)
-              const Divider(height: 1),
-            ],
-          );
-        },
+          // Chat list
+          Expanded(
+            child: ListView.builder(
+              itemCount: chats.length,
+              itemBuilder: (context, index) {
+                final chat = chats[index];
+                return ListTile(
+                  leading: CircleAvatar(
+                    radius: 28,
+                    backgroundImage: NetworkImage(chat['image']!),
+                  ),
+                  title: Text(
+                    chat['name']!,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Text('${chat['message']} · ${chat['time']}'),
+                  trailing: const Icon(Icons.camera_alt_outlined),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ChatScreen(contactName: chat['name']!),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
