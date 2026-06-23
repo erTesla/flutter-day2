@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       // ThemeData controls the global look of the app.
       // Students can experiment with colorScheme and typography here!
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
 
