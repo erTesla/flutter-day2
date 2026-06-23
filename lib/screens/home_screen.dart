@@ -20,8 +20,9 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       // ── AppBar ─────────────────────────────────────────────────────────────
       appBar: AppBar(
-        title: const Text('Flutter Chat App'),
-      ),
+        title: const Text('Instagram',style: TextStyle(fontWeight: FontWeight.w700,color: Color.fromARGB(255, 169, 101, 56)),)
+            ),
+      
 
       // ── Body ───────────────────────────────────────────────────────────────
       // Center aligns its child widget both horizontally and vertically.
@@ -33,27 +34,35 @@ class HomeScreen extends StatelessWidget {
           children: [
             // ── Welcome icon ───────────────────────────────────────────────
             const Icon(
-              Icons.chat_bubble_outline,
+              Icons.photo_camera,
               size: 80,
-              color: Colors.blueGrey,
+              color: Color.fromARGB(255, 169, 56, 154),
             ),
 
             const SizedBox(height: 24), // Empty space between widgets
 
             // ── Welcome text ───────────────────────────────────────────────
             const Text(
-              'Welcome to Flutter Chat!',
+              'Welcome to Instagram Messages!',
               style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+                fontSize: 23,
+                fontWeight: FontWeight.w700,
+                color: Color.fromARGB(255, 169, 101, 56)
+
               ),
             ),
 
             const SizedBox(height: 8),
 
+            const Icon(
+              Icons.all_inclusive,
+              size: 60,
+              color: Colors.purple,
+            ),
+
             const Text(
-              'Tap the button below to see your messages.',
-              style: TextStyle(fontSize: 14, color: Colors.grey),
+              'from Meta',
+              style: TextStyle(fontSize: 14, color: Color.fromARGB(255, 169, 101, 56),fontWeight: FontWeight.w700),
               textAlign: TextAlign.center,
             ),
 
@@ -73,7 +82,8 @@ class HomeScreen extends StatelessWidget {
                   ),
                 );
               },
-              child: const Text('Open Messages'),
+              child:
+                 const Text('Open Messages',style: TextStyle(color: Colors.purple),),
             ),
           ],
         ),
