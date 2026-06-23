@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     // MaterialApp sets up Material Design and the Navigator (screen stack).
     return MaterialApp(
       // The title appears in the device's task switcher
-      title: 'Flutter Chat App',
+      title: 'Chatter Chat App',
 
       // debugShowCheckedModeBanner: false removes the red "DEBUG" banner
       debugShowCheckedModeBanner: false,
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       // ThemeData controls the global look of the app.
       // Students can experiment with colorScheme and typography here!
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 253, 254, 255)),
         useMaterial3: true,
       ),
 

@@ -20,24 +20,29 @@ class MessageTile extends StatelessWidget {
   Widget build(BuildContext context) {
     // ListTile is a built-in Flutter widget perfect for list rows.
     // It has built-in slots for a leading icon, title, subtitle, and trailing widget.
-    return ListTile(
+    return ListTile( tileColor: Colors.grey[900],
       // ── Leading: the round avatar circle on the left ──────────────────────
       leading: CircleAvatar(
         // Background color – students can change this later
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Colors.lightBlueAccent,
         // Show the first letter of the contact's name
-        child: Text(
-          conversation.avatarLetter,
-          style: const TextStyle(color: Colors.white),
+        child: Icon(
+          Icons.person,
+          color: Colors.lightGreenAccent,
+          size: 28,
+          //style: const TextStyle(color: Colors.purple),
         ),
       ),
 
       // ── Title: the contact's name ─────────────────────────────────────────
-      title: Text(conversation.name),
-
+      //title: Text(conversation.name),
+      title: Text(
+        conversation.name,
+        style: const TextStyle(color: Colors.white),
+      ),
       // ── Subtitle: preview of the last message ─────────────────────────────
       subtitle: Text(
-        conversation.lastMessage,
+        conversation.lastMessage, style: const TextStyle(color: Colors.grey),
         // Prevent long messages from wrapping to a second line
         overflow: TextOverflow.ellipsis,
         maxLines: 1,

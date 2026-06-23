@@ -18,11 +18,16 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Scaffold provides the basic visual structure: AppBar + body area.
     return Scaffold(
+      backgroundColor: Colors.black,
       // ── AppBar ─────────────────────────────────────────────────────────────
       appBar: AppBar(
-        title: const Text('Flutter Chat App'),
+        //title: const Text('Chatter Chat app'),
+        backgroundColor: Colors.black,
+        title: const Text(
+          'Chatter Chat app',
+          style: TextStyle(color: Colors.white),
+        ),
       ),
-
       // ── Body ───────────────────────────────────────────────────────────────
       // Center aligns its child widget both horizontally and vertically.
       body: Center(
@@ -35,17 +40,18 @@ class HomeScreen extends StatelessWidget {
             const Icon(
               Icons.chat_bubble_outline,
               size: 80,
-              color: Colors.blueGrey,
+              color: Colors.orange,
             ),
 
             const SizedBox(height: 24), // Empty space between widgets
 
             // ── Welcome text ───────────────────────────────────────────────
             const Text(
-              'Welcome to Flutter Chat!',
+              'Welcome to Chatter Chat!',
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
+                color: Colors.white
               ),
             ),
 
@@ -53,7 +59,7 @@ class HomeScreen extends StatelessWidget {
 
             const Text(
               'Tap the button below to see your messages.',
-              style: TextStyle(fontSize: 14, color: Colors.grey),
+              style: TextStyle(fontSize: 14, color: Colors.blueGrey),
               textAlign: TextAlign.center,
             ),
 
@@ -61,6 +67,17 @@ class HomeScreen extends StatelessWidget {
 
             // ── Navigation button ──────────────────────────────────────────
             ElevatedButton(
+               style: ElevatedButton.styleFrom(   // 👈 ADD THIS PART
+                backgroundColor: Colors.orange,  // button color
+                foregroundColor: Colors.white,   // text color
+                padding: const EdgeInsets.symmetric(
+                horizontal: 24,
+                vertical: 12,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+                ),
+              ),
               onPressed: () {
                 // NAVIGATION: Navigator.push() opens a new screen.
                 // Think of it like stacking screens on top of each other.
@@ -73,7 +90,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 );
               },
-              child: const Text('Open Messages'),
+              child: const Text('Your Messages'),
             ),
           ],
         ),

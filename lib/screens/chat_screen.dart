@@ -64,7 +64,7 @@ class ChatScreen extends StatelessWidget {
         message.isSentByMe ? CrossAxisAlignment.end : CrossAxisAlignment.start;
 
     // Blue for "me", grey for the other person
-    final bubbleColor = message.isSentByMe ? Colors.blue[100] : Colors.grey[200];
+    final bubbleColor = message.isSentByMe ? Colors.orange[700] : Colors.grey[800];
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
@@ -98,7 +98,7 @@ class ChatScreen extends StatelessWidget {
     return Container(
       // A light border on top to visually separate the input from messages
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.black,
         border: Border(top: BorderSide(color: Colors.grey.shade300)),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -127,7 +127,7 @@ class ChatScreen extends StatelessWidget {
           // onPressed is empty (no functionality) – a student assignment!
           IconButton(
             icon: const Icon(Icons.send),
-            color: Colors.blue,
+            color: Colors.lightBlue,
             onPressed: () {
               // TODO: Students – add send functionality here!
               // Hint: You'll need to convert this to a StatefulWidget
