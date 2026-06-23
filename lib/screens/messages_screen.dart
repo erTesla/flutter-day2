@@ -18,8 +18,12 @@ class MessagesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+     
       // ── AppBar ─────────────────────────────────────────────────────────────
       appBar: AppBar(
+         backgroundColor: Colors.black87,
+         foregroundColor: Colors.purpleAccent,
         title: const Text('Messages'),
       ),
 
@@ -42,6 +46,7 @@ class MessagesScreen extends StatelessWidget {
               // MessageTile is our custom reusable widget (see widgets/message_tile.dart)
               // We pass the conversation data in, and the tile handles display + navigation.
               MessageTile(conversation: conversation),
+              
 
               // A thin horizontal divider line between rows (optional styling)
               const Divider(height: 1),

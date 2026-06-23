@@ -21,8 +21,14 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor:Color.fromARGB(255, 0, 0, 0),
+       
+      
       // ── AppBar ─────────────────────────────────────────────────────────────
       appBar: AppBar(
+        backgroundColor: const Color.fromARGB(153, 0, 0, 0),
+          foregroundColor: Colors.purpleAccent,
+        
         // Display the contact's name passed in from the previous screen
         title: Text(contactName),
       ),
@@ -64,7 +70,7 @@ class ChatScreen extends StatelessWidget {
         message.isSentByMe ? CrossAxisAlignment.end : CrossAxisAlignment.start;
 
     // Blue for "me", grey for the other person
-    final bubbleColor = message.isSentByMe ? Colors.blue[100] : Colors.grey[200];
+    final bubbleColor = message.isSentByMe ? const Color.fromARGB(255, 214, 28, 231) : Colors.grey[200];
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
@@ -83,7 +89,7 @@ class ChatScreen extends StatelessWidget {
             ),
             child: Text(
               message.text,
-              style: const TextStyle(fontSize: 15),
+              style: const TextStyle(fontSize: 15,color:Colors.black)
             ),
           ),
         ],
@@ -127,7 +133,7 @@ class ChatScreen extends StatelessWidget {
           // onPressed is empty (no functionality) – a student assignment!
           IconButton(
             icon: const Icon(Icons.send),
-            color: Colors.blue,
+            color: Colors.purpleAccent,
             onPressed: () {
               // TODO: Students – add send functionality here!
               // Hint: You'll need to convert this to a StatefulWidget

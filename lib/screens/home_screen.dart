@@ -18,9 +18,12 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Scaffold provides the basic visual structure: AppBar + body area.
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       // ── AppBar ─────────────────────────────────────────────────────────────
       appBar: AppBar(
-        title: const Text('Flutter Chat App'),
+        backgroundColor: Colors.black12,
+        title: const Text('Instagram',style:TextStyle(color:Colors.purpleAccent)),
+        
       ),
 
       // ── Body ───────────────────────────────────────────────────────────────
@@ -33,17 +36,18 @@ class HomeScreen extends StatelessWidget {
           children: [
             // ── Welcome icon ───────────────────────────────────────────────
             const Icon(
-              Icons.chat_bubble_outline,
+              Icons.add_a_photo,
               size: 80,
-              color: Colors.blueGrey,
+              color: Color.fromARGB(255, 191, 4, 238),
             ),
 
             const SizedBox(height: 24), // Empty space between widgets
 
             // ── Welcome text ───────────────────────────────────────────────
             const Text(
-              'Welcome to Flutter Chat!',
+              'Welcome to INSTAGRAM!',
               style: TextStyle(
+                color: Color.fromARGB(255, 150, 11, 64),
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
               ),
@@ -53,7 +57,7 @@ class HomeScreen extends StatelessWidget {
 
             const Text(
               'Tap the button below to see your messages.',
-              style: TextStyle(fontSize: 14, color: Colors.grey),
+              style: TextStyle(fontSize: 14, color: Color.fromARGB(255, 115, 163, 252)),
               textAlign: TextAlign.center,
             ),
 
@@ -73,6 +77,10 @@ class HomeScreen extends StatelessWidget {
                   ),
                 );
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 144, 146, 245),
+                foregroundColor: const Color.fromARGB(255, 134, 2, 46),
+              ),
               child: const Text('Open Messages'),
             ),
           ],
